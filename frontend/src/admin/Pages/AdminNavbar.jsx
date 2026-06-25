@@ -1,0 +1,36 @@
+import React from 'react'
+import axios from "axios"
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
+
+const AdminNavbar = () => {
+
+    const {admin, setAdmin} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try{
+            await axios.get(
+                "http://localhost:3000/api/auth/admin-logout",
+                {
+                    withCredentials: true
+                }
+            )
+            setAdmin(null);
+            navigate("/");
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+  return (
+    <div className='flex items-center justify-between px-40 py-5'>
+        <h1 className='font-bold text-2xl'>Welcome, {admin ? admin.username : "anonymous"}</h1>
+
+        <button className='bg-blue-600 px-4 py-2 rounded-xl font-medium' onClick={handleLogout}>Logout</button>
+    </div>
+  )
+}
+
+export default AdminNavbar
