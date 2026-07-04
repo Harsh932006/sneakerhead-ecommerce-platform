@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import AdminNavbar from "./AdminNavbar";
+import {toast} from "react-toastify"
 
 const EditMyProduct = () => {
   const [name, setName] = useState("");
@@ -55,6 +56,7 @@ const EditMyProduct = () => {
             }
         )
         navigate("/admin-dashboard")
+        toast.success("Product updated successfully");
     }catch(err){
         console.log(err);
     }

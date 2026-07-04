@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const userModel = require("./src/models/user.model");
 const authRoutes = require("./src/routes/auth.routes");
 const productRoutes = require("./src/routes/product.routes");
+const cartRoutes = require("./src/routes/cart.routes");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const cors = require("cors");
@@ -42,6 +43,7 @@ app.use(session({
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);

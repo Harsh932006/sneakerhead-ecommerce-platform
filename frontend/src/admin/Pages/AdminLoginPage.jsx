@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import AdminNavbar from './AdminNavbar';
+import { toast } from "react-toastify";
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -30,6 +31,7 @@ const AdminLoginPage = () => {
 
       await checkAdminAuth();
       navigate("/admin-dashboard");
+      toast.success(response.data.message);
     }catch(err){
       console.log(err);
     }

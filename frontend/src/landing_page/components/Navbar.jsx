@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios"
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -19,7 +20,8 @@ const Navbar = () => {
       )
 
       setUser(null);
-      navigate("/")
+      navigate("/");
+      toast.success("Logged out successfully.");
     }catch(err){
       console.log(err);
     }
@@ -36,9 +38,6 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/products">Products</Link>
-        </li>
-        <li>
-          <Link to="/categories">Categories</Link>
         </li>
         {user ? (
           <>
@@ -58,6 +57,9 @@ const Navbar = () => {
             </li>
           </>
         )}
+        <li>
+          <Link to="/cart"><i class="fa-solid fa-cart-shopping"></i></Link>
+        </li>
       </ul>
     </div>
   );

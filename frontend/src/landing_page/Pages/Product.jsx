@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
+
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     fetchProducts();
@@ -18,6 +22,31 @@ const Product = () => {
       console.log(err);
     }
   };
+
+  const addToCart = async (productId) => {
+    try{
+
+      if(!user){
+        return toast.error("Please login to add products to cart");
+      }
+
+      const response = await axios.post(
+        "http://localhost:3000/api/cart/add",
+        {
+          productId: productId,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+
+      console.log(response.data);
+      toast.success(response.data.message);
+
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   return (
     <div className="products bg-black">
@@ -36,7 +65,7 @@ const Product = () => {
                 <button className="bg-blue-500 px-8 py-2 text-white font-bold rounded-xl">
                   Buy Now
                 </button>
-                <button className="bg-blue-700 px-8 py-2 text-white font-bold rounded-xl">
+                <button className="bg-blue-700 px-8 py-2 text-white font-bold rounded-xl" onClick={() => addToCart(product._id)}>
                   Add To Cart
                 </button>
               </div>

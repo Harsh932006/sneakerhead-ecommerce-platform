@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import axios from "axios"
 import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
@@ -30,6 +31,7 @@ const SignupPage = () => {
     console.log(response.data);
     await checkAuth();
     navigate("/");
+    toast.success(response.data.message);
     }catch(err){
       console.log(err);
     }

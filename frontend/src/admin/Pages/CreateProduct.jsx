@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios"
+import {toast} from "react-toastify";
 
 const CreateProduct = () => {
   const [name, setName] = useState("");
@@ -25,6 +26,11 @@ const CreateProduct = () => {
         )
 
         console.log(response.data);
+        setName("");
+        setDesc("");
+        setPrice("");
+        setImage("");
+        toast.success(response.data.message);
 
     }catch(err){
         console.log(err);

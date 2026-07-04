@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
+import { toast } from "react-toastify";
 
 const AdminSignup = () => {
   const [username, setUsername] = useState("");
@@ -36,6 +37,7 @@ const AdminSignup = () => {
 
       await checkAdminAuth();
       navigate("/admin-login");
+      toast.success(response.data.message);
     } catch (err) {
       console.log(err);
     }

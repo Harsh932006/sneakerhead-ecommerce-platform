@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {toast} from "react-toastify"
 
 const ShowMyProdcuts = () => {
   const [products, setProducts] = useState([]);
@@ -33,6 +34,7 @@ const ShowMyProdcuts = () => {
       });
 
       fetchProducts();
+      toast.success("Product deleted successfully");
     } catch (err) {
       console.log(err);
     }
