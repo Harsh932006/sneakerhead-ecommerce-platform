@@ -10,6 +10,8 @@ import EditMyProduct from "./admin/Pages/EditMyProduct";
 import AdminSignup from "./admin/Pages/AdminSignup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./landing_page/components/ProtectedRoute";
+import ProtectedAdminRoute from "./admin/Pages/ProtectedAdminRoute";
 
 const App = () => {
   return (
@@ -19,10 +21,18 @@ const App = () => {
         <Route path="/products" element={<Product />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/signup" element={<SignupPage />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/cart" element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        }></Route>
 
         <Route path="/admin-login" element={<AdminLoginPage />}></Route>
-        <Route path="/admin-dashboard" element={<AdminDashboardPage />}></Route>
+        <Route path="/admin-dashboard" element={
+          <ProtectedAdminRoute>
+            <AdminDashboardPage />
+          </ProtectedAdminRoute>
+        }></Route>
         <Route
           path="/admin/products/edit/:id"
           element={<EditMyProduct />}
