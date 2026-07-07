@@ -157,3 +157,50 @@ button:active{
   border-radius: 1rem;
   gap: 1rem;
 }
+
+
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  border: 2px solid white;
+}
+
+/* Hide the native ugly browser button */
+#custom-file-input {
+  display: none;
+}
+
+/* Style our custom label to look like a premium button */
+.custom-file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: royalblue; /* Modern Indigo color */
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Interactive feedback states */
+.custom-file-label:hover {
+  background-color: royalblue;
+}
+
+.custom-file-label:active {
+  transform: scale(0.98);
+}
+
+/* Styled text for the selected file name */
+.file-name-text {
+  font-size: 14px;
+  color: #6b7280; /* Neutral gray */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}

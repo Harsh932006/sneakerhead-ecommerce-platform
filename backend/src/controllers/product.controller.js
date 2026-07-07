@@ -1,9 +1,12 @@
 const productModel = require("../models/product.model");
 const adminModel = require("../models/admin.model");
+const {uploadImage, deleteImage} = require("../services/imagekit.service");
 
 
 const addProduct = async (req, res) => {
-  const adminId = req.session.adminId;
+  try{
+
+    const adminId = req.session.adminId;
 
   if(!adminId){
     return res.status(403).json({
@@ -19,19 +22,36 @@ const addProduct = async (req, res) => {
     })
   }
 
-  const {name, desc, price, image} = req.body;
+  if(!req.file){
+    return res.status(400).json({
+      message: "Please upload a product image"
+    })
+  }
+
+  const {name, desc, price} = req.body;
+
+  //Upload image to Imagekit
+  const uploadedImage = await uploadImage(req.file);
 
   const product = await productModel.create({
     name,
     desc,
     price,
-    image,
+    image: uploadedImage.url,
+    imageFileId: uploadedImage.fileId,
     adminId: adminId,
   });
 
   res.status(200).json({
     message: "Product created successfully"
   })
+
+  }catch(err){
+    console.log(err);
+    res.status(500),json({
+      message: "Something went wrong"
+    })
+  }
 }
 
 const getAdminProducts = async (req, res) => {
@@ -153,6 +173,15 @@ const deleteProduct = async (req, res) => {
       message: "Access denied"
     })
   }
+
+   if (product.imageFileId) {
+      try {
+        await deleteImage(product.imageFileId);
+        console.log('Image successfully deleted from ImageKit');
+      } catch (ikError) {
+        console.error('Failed to delete image from ImageKit:', ikError.message);
+      }
+    }
 
   await productModel.findByIdAndDelete(id);
 
