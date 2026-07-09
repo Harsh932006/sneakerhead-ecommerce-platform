@@ -20,8 +20,7 @@ const productSchema = new Schema({
     },
     adminId: {
         type: Schema.Types.ObjectId,
-        ref: "admin",
-        // required: true,
+        ref: "Admin",
     }
 });
 

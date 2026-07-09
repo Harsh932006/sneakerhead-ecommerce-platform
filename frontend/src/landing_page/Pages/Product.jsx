@@ -3,11 +3,13 @@ import axios from "axios";
 import Layout from "../components/Layout";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     fetchProducts();
@@ -24,9 +26,8 @@ const Product = () => {
   };
 
   const addToCart = async (productId) => {
-    try{
-
-      if(!user){
+    try {
+      if (!user) {
         return toast.error("Please login to add products to cart");
       }
 
@@ -37,16 +38,16 @@ const Product = () => {
         },
         {
           withCredentials: true,
-        }
-      )
+        },
+      );
 
       console.log(response.data);
       toast.success(response.data.message);
-
-    }catch(err){
+      
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <div className="products bg-black">
@@ -55,18 +56,27 @@ const Product = () => {
 
         <div className="card-container">
           {products.map((product) => (
-            <div className="card" key={product._id}>
-              <img src={product.image} alt="Shoe image" />
-              <h2 className="text-2xl font-bold">{product.name}</h2>
-              <p>{product.desc}</p>
-              <p className="font-bold">Price: ₹{product.price}</p>
-
-              <div className="btns flex gap-4">
-                <button className="bg-blue-500 px-8 py-2 text-white font-bold rounded-xl">
-                  Buy Now
-                </button>
-                <button className="bg-blue-700 px-8 py-2 text-white font-bold rounded-xl" onClick={() => addToCart(product._id)}>
-                  Add To Cart
+            <div
+              className="card cursor-pointer"
+              key={product._id}
+              onClick={() => navigate(`/product/${product._id}`)}
+            >
+              <div className="card-image-wrapper">
+                <img src={product.image} alt="Shoe image" />
+              </div>
+              <div className="card-header-group">
+                <h2 className="text-3xl font-bold">{product.name}</h2>
+                <div className="h-1 w-20 bg-blue-500 rounded"></div>
+              </div>
+              <p className="text-gray-400 text-sm line-clamp-2">
+                {product.desc}
+              </p>
+              <div className="flex flex-col gap-2 mt-auto">
+                <p className="font-bold text-lg text-white">
+                  Price: ₹{product.price}
+                </p>
+                <button className="bg-blue-500 hover:bg-blue-600 transition-colors py-2.5 text-white font-bold rounded-xl text-center text-sm w-full">
+                  Explore Now
                 </button>
               </div>
             </div>

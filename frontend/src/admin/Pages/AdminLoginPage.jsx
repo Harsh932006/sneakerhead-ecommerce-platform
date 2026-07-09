@@ -27,13 +27,12 @@ const AdminLoginPage = () => {
           withCredentials: true,
         }
       )
-      console.log(response.data);
 
       await checkAdminAuth();
       navigate("/admin-dashboard");
       toast.success(response.data.message);
     }catch(err){
-      console.log(err);
+      toast.error("Invalid credentials");
     }
   }
 
@@ -45,7 +44,7 @@ const AdminLoginPage = () => {
 
         <form className='login-form flex flex-col items-center justify-start pt-20 gap-10' onSubmit={handleFormSubmit} action="">
           <input type="text" placeholder='Enter your email' value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="text" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit">Log In</button>
         </form>
     </div>

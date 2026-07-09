@@ -106,8 +106,9 @@ const CreateProduct = () => {
     </button>
   )}
         </div>
-        <button type="submit">Add Product</button>
+        <button type="submit" className="bg-blue-600">Add Product</button>
       </form>
+      {/* </Layout> */}
       <hr className="text-white"/>
     </div>
   );

@@ -47,7 +47,7 @@ const SignupPage = () => {
         <form className='login-form flex flex-col items-center justify-start pt-40 gap-10' onSubmit={handleFormSubmit} action="">
           <input type="text" placeholder='Enter username' value={username} onChange={(e) => setUsername(e.target.value)}/>
           <input type="text" placeholder='Enter your email' value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="text" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit">Sign Up</button>
         </form>
       </Layout>

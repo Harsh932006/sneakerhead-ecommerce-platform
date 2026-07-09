@@ -4,6 +4,7 @@ import Product from "./landing_page/Pages/Product";
 import LoginPage from "./landing_page/Pages/LoginPage";
 import SignupPage from "./landing_page/Pages/SignupPage";
 import Cart from "./landing_page/Pages/Cart";
+import SingleProduct from "./landing_page/Pages/SingleProduct";
 import AdminLoginPage from "../src/admin/Pages/AdminLoginPage";
 import AdminDashboardPage from "./admin/Pages/AdminDashboardPage";
 import EditMyProduct from "./admin/Pages/EditMyProduct";
@@ -26,6 +27,7 @@ const App = () => {
             <Cart />
           </ProtectedRoute>
         }></Route>
+        <Route path="/product/:id" element={<SingleProduct />}></Route>
 
         <Route path="/admin-login" element={<AdminLoginPage />}></Route>
         <Route path="/admin-dashboard" element={

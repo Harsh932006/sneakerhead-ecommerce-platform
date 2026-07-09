@@ -26,13 +26,12 @@ const LoginPage = () => {
           withCredentials: true,
         }
       )
-      console.log(response.data);
 
       await checkAuth();
       navigate("/");
       toast.success("Logged in successfully");
     }catch(err){
-      console.log(err);
+      toast.error("Invalid credentials");
     }
 
     setEmail("");
@@ -46,7 +45,7 @@ const LoginPage = () => {
 
         <form className='login-form flex flex-col items-center justify-start pt-40 gap-10' onSubmit={handleFormSubmit} action="">
           <input type="text" placeholder='Enter your email' value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="text" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit">Log In</button>
         </form>
       </Layout>
