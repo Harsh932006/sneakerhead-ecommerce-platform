@@ -27,11 +27,42 @@ const AdminNavbar = () => {
     }
 
   return (
-    <div className='flex items-center justify-between px-40 py-5'>
-        <h1 className='font-bold text-2xl'>Dashboard</h1>
+    // <div className='flex items-center justify-between px-40 py-5'>
+    //     <h1 className='font-bold text-2xl'>Dashboard</h1>
 
-        <button className='bg-blue-600 px-4 py-2 rounded-xl font-medium' onClick={handleLogout}>Logout</button>
-    </div>
+    //     <button className='bg-blue-600 px-4 py-2 rounded-xl font-medium' onClick={handleLogout}>Logout</button>
+    // </div>
+
+    <header className="w-full pt-4">
+            {/* FIXED: Replaced px-40 with max-w-[92%] to keep layout alignments consistent across displays */}
+            <nav className="max-w-[92%] mx-auto flex items-center justify-between px-8 py-4 rounded-2xl bg-neutral-900/60 backdrop-blur-md border border-neutral-800/50 shadow-lg">
+                
+                {/* Brand Identification Identity Frame */}
+                <div className="flex items-center gap-3">
+                    <span className="h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse"></span>
+                    <h1 className="font-black text-xl tracking-tight text-neutral-100">
+                        Merchant Dashboard
+                    </h1>
+                </div>
+
+                {/* Authentication Controls Group */}
+                <div className="flex items-center gap-6">
+                    {admin && (
+                        <span className="text-xs font-semibold text-neutral-400 tracking-wide hidden sm:inline">
+                            Session Status: <span className="text-blue-400 font-bold">Active</span>
+                        </span>
+                    )}
+                    
+                    <button 
+                        onClick={handleLogout}
+                        className="px-5 py-2 rounded-xl bg-neutral-800 hover:bg-red-950/40 hover:text-red-400 border border-neutral-700/50 hover:border-red-900/50 text-sm font-semibold tracking-wide transition-all duration-200 active:scale-[0.98]"
+                    >
+                        Logout
+                    </button>
+                </div>
+                
+            </nav>
+        </header>
   )
 }
 

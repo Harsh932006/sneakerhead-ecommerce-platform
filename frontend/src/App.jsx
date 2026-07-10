@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./landing_page/components/ProtectedRoute";
 import ProtectedAdminRoute from "./admin/Pages/ProtectedAdminRoute";
+import NotFound from "./landing_page/Pages/NotFound";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
           element={<EditMyProduct />}
         ></Route>
         <Route path="/admin-signup" element={<AdminSignup />}></Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       
       <ToastContainer position="top-right" autoClose={2000} theme="dark" />

@@ -59,147 +59,145 @@ const Cart = () => {
       console.log(err);
     }
   };
+
+  const totalCartPrice = cart.reduce((accumulator, item) => {
+    return accumulator + (Number(item.productId?.price) || 0);
+  }, 0);
   
 
   return (
-      // <div className="products bg-black relative">
-      //   <Layout>
-      //     <h1 className="text-center font-bold text-4xl p-4">My Cart</h1>
-
-      //     {cart.length > 0 ? (
-      //       <button
-      //         className="bg-red-500 px-8 py-2 text-white font-bold rounded-xl absolute right-10 top-22"
-      //         onClick={clearCart}
-      //       >
-      //         Clear Cart
-      //       </button>
-      //     ) : null}
-
-      //     <div className="card-container">
-      //       {user ? null : (
-      //         <h2 className="text-center w-[100vw] h-[70vh] flex items-center justify-center text-3xl">
-      //           Please login to view your cart.
-      //         </h2>
-      //       )}
-      //       {cart.length === 0 && user ? (
-      //         <h2>Your cart is empty.</h2>
-      //       ) : (
-      //         cart.map((item) => (
-      //           <div className="card text-center" key={item._id}>
-      //             <img src={item.productId.image} alt="Shoe image" />
-      //             <h2 className="text-2xl font-bold">{item.productId.name}</h2>
-      //             <p>{item.productId.desc}</p>
-      //             <p className="font-bold">Price: ₹{item.productId.price}</p>
-
-      //             <div className="btns flex gap-4">
-      //               <button className="bg-blue-500 px-8 py-2 text-white font-bold rounded-xl w-100">
-      //                 Buy Now
-      //               </button>
-      //               <button
-      //                 className="bg-red-500 px-8 py-2 text-white font-bold rounded-xl w-100"
-      //                 onClick={() => removeFromCart(item.productId._id)}
-      //               >
-      //                 Remove
-      //               </button>
-      //             </div>
-      //           </div>
-      //         ))
-      //       )}
-      //     </div>
-      //   </Layout>
-      // </div>
-
-
-      <div className="products bg-black text-white min-h-screen">
-  <Layout>
-    {/* Left-aligned header block with Clear Cart button */}
-    <div className="px-6 md:px-12 pt-8 pb-4 flex items-center justify-between">
-      <h1 className="font-bold text-5xl">My Cart</h1>
       
-      {user && cart.length > 0 && (
-        <button
-          className="bg-red-500 px-6 py-2 text-white font-bold rounded-xl text-sm hover:bg-red-600 transition"
-          onClick={clearCart}
-        >
-          Clear Cart
-        </button>
-      )}
-    </div>
+<Layout>
+      {/* Outer Wrapper matches your 92% screen layout scale configuration */}
+      <div className="w-full flex flex-col gap-10 py-4">
+        
+        {/* Header Block: Left Title and Right Action Button */}
+        <div className="w-full flex items-center justify-between border-b border-neutral-900 pb-5">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl md:text-3xl font-black text-neutral-100 tracking-tight">Shopping Bag</h1>
+            <p className="text-sm text-neutral-400">Review your selected items and finalize your shipping order</p>
+          </div>
+          
+          {user && cart.length > 0 && (
+            <button
+              className="px-5 py-2.5 rounded-xl bg-neutral-900 hover:bg-red-950/40 hover:text-red-400 border border-neutral-800 hover:border-red-900/40 text-xs font-bold tracking-wide transition-all duration-200 active:scale-[0.98]"
+              onClick={clearCart}
+            >
+              Clear Entire Cart
+            </button>
+          )}
+        </div>
 
-    {/* Flex container aligned to the left side */}
-    <div className="card-container w-full px-6 md:px-12 py-2 flex flex-wrap gap-6 justify-start items-stretch">
-      
-      {!user ? (
-        <h2 className="text-center w-full h-[60vh] flex items-center justify-center text-3xl">
-          Please login to view your cart.
-        </h2>
-      ) : cart.length === 0 ? (
-        <h2 className="text-center w-full h-[60vh] flex items-center justify-center text-3xl">
-          Your cart is empty.
-        </h2>
-      ) : (
-        cart.map((item) => (
-          <div 
-            /* Main card structure matching your reference layout (smooth borders, left alignment) */
-            className="w-80 bg-[#0c0c0c] border-2 border-[#1c1c1e] p-5 rounded-3xl flex flex-col justify-between text-left transition-all duration-300 ease-in-out hover:scale-[1.01] hover:border-zinc-700 shadow-2xl overflow-hidden" 
-            key={item._id}
-          >
-            {/* Top Block Container */}
-            <div className="flex-1 flex flex-col">
-              {/* Product Image Wrapper */}
-              <div className="w-full h-64 rounded-2xl overflow-hidden mb-5 flex items-center justify-center">
-                <img 
-                  className="w-full h-full object-cover" 
-                  src={item.productId.image} 
-                  alt={item.productId.name} 
-                />
-              </div>
-              
-              {/* Inner text content wrapper */}
-              <div className="flex-1 flex flex-col justify-start mb-4">
-                {/* Product Title Box with customized blue bottom accent border */}
-                <div className="inline-block mb-3">
-                  <h2 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
-                    {item.productId.name}
-                  </h2>
-                  <div className="w-14 h-1 bg-blue-500 rounded-full mt-2"></div>
+        {/* Master Context Container Routing Panels */}
+        {!user ? (
+          <div className="w-full border-2 border-dashed border-neutral-800 rounded-2xl p-16 text-center bg-neutral-900/10 backdrop-blur-sm min-h-[40vh] flex flex-col items-center justify-center">
+            <i className="fa-solid fa-lock text-4xl text-neutral-700 mb-3"></i>
+            <h2 className="text-xl font-bold text-neutral-300">Access Restricted</h2>
+            <p className="text-sm text-neutral-500 mt-1">Please log in to your collector profile to access your shopping cart.</p>
+          </div>
+        ) : cart.length === 0 ? (
+          <div className="w-full border-2 border-dashed border-neutral-800 rounded-2xl p-16 text-center bg-neutral-900/10 backdrop-blur-sm min-h-[40vh] flex flex-col items-center justify-center">
+            <i className="fa-solid fa-cart-shopping text-4xl text-neutral-700 mb-3"></i>
+            <h2 className="text-xl font-bold text-neutral-300">Your bag is empty</h2>
+            <p className="text-sm text-neutral-500 mt-1">Looks like you haven't added any sneaker drops to your bag yet.</p>
+          </div>
+        ) : (
+          /* Premium Split Layout Pattern: List Items on Left (7 cols), Billing Invoice Grid on Right (5 cols) */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+            
+            {/* Left Box Feed: Shopping Cart Items Stack List */}
+            <div className="lg:col-span-7 w-full flex flex-col gap-4">
+              {cart.map((item) => (
+                <div 
+                  className="w-full p-4 md:p-5 rounded-2xl bg-neutral-900 border border-neutral-800 flex flex-col sm:flex-row gap-5 items-center justify-between shadow-xl group" 
+                  key={item._id}
+                >
+                  {/* Left Side Content Container */}
+                  <div className="flex flex-col sm:flex-row gap-5 items-center w-full">
+                    {/* Dynamic Image Canvas Layout */}
+                    <div className="w-full sm:w-32 h-32 bg-neutral-950 border border-neutral-800/60 rounded-xl overflow-hidden shrink-0 relative">
+                      <img 
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
+                        src={item.productId?.image} 
+                        alt={item.productId?.name} 
+                      />
+                    </div>
+                    
+                    {/* Typography Text Summary */}
+                    <div className="flex flex-col text-center sm:text-left gap-1 truncate w-full">
+                      <h2 className="text-lg font-black text-neutral-100 tracking-tight truncate group-hover:text-blue-400 transition-colors duration-200">
+                        {item.productId?.name}
+                      </h2>
+                      <div className="w-6 h-0.5 bg-blue-500 rounded-full my-1 mx-auto sm:mx-0"></div>
+                      <p className="text-neutral-400 text-xs leading-relaxed line-clamp-2 max-w-md">
+                        {item.productId?.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right Side Pricing and Actions Wrapper */}
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-4 w-full sm:w-auto shrink-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
+                    <div className="text-left sm:text-right flex flex-col">
+                      <span className="text-[10px] font-bold text-neutral-500 tracking-wider uppercase hidden sm:block">Item Total</span>
+                      <p className="font-extrabold text-base text-neutral-100 mt-0.5">
+                        ₹{item.productId?.price?.toLocaleString('en-IN')}
+                      </p>
+                    </div>
+
+                    <button 
+                      onClick={() => removeFromCart(item.productId?._id)}
+                      className="p-2.5 rounded-xl bg-neutral-950/40 hover:bg-red-950/40 border border-neutral-800 hover:border-red-900/40 text-neutral-400 hover:text-red-400 text-xs font-semibold flex items-center gap-1.5 transition-all duration-150 shadow-sm active:scale-[0.97]"
+                    >
+                      <i className="fa-solid fa-trash-can text-xs"></i>
+                      <span className="sm:hidden">Remove</span>
+                    </button>
+                  </div>
+
                 </div>
-                
-                {/* Description Text */}
-                <p className="text-zinc-400 line-clamp-2 text-sm leading-relaxed mt-2 pr-2">
-                  {item.productId.desc}
-                </p>
-              </div>
+              ))}
             </div>
 
-            {/* Bottom Block Container */}
-            <div className="mt-auto">
-              {/* Price Details */}
-              <p className="font-bold text-xl mb-4 text-white">
-                Price: <span className="font-extrabold">₹{item.productId.price}</span>
-              </p>
-
-              {/* Single primary button format replacing the original two split buttons */}
-              <div className="btns w-full flex gap-2">
-                <button className="bg-blue-500 py-3 text-white font-bold rounded-xl w-full hover:bg-blue-600 transition text-sm tracking-wide shadow-md shadow-blue-500/10">
-                  Buy Now
-                </button>
-
-                <button className="bg-red-500 py-3 text-white font-bold rounded-xl w-full hover:bg-red-600 transition text-sm tracking-wide shadow-md shadow-blue-500/10">
-                  Remove
-                </button>
-                
-                
+            {/* Right Box Feed: Modern Summary Billing Checkout Card */}
+            <div className="lg:col-span-5 w-full p-6 md:p-8 rounded-2xl bg-neutral-900 border border-neutral-800 shadow-2xl flex flex-col gap-6">
+              <div>
+                <h3 className="text-lg font-bold text-neutral-100 tracking-tight">Order Summary</h3>
+                <p className="text-xs text-neutral-500 mt-0.5">Shipping costs and final checkout price details</p>
               </div>
+
+              {/* Fee Calculations Fields Grid */}
+              <div className="flex flex-col gap-4 border-t border-b border-neutral-800/80 py-4 text-sm">
+                <div className="flex items-center justify-between text-neutral-400">
+                  <span>Bag Subtotal ({cart.length} items)</span>
+                  <span className="font-medium text-neutral-200">₹{totalCartPrice.toLocaleString('en-IN')}</span>
+                </div>
+                <div className="flex items-center justify-between text-neutral-400">
+                  <span>Estimated Shipping</span>
+                  <span className="text-emerald-400 font-bold tracking-wide uppercase text-xs">Free</span>
+                </div>
+                <div className="flex items-center justify-between text-neutral-400">
+                  <span>Tax Surcharges</span>
+                  <span className="font-medium text-neutral-200">₹0</span>
+                </div>
+              </div>
+
+              {/* Total Aggregate Sum Row */}
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm font-bold text-neutral-300">Total Invoice Amount</span>
+                <p className="text-2xl font-black text-neutral-100 tracking-tight">
+                  ₹{totalCartPrice.toLocaleString('en-IN')}
+                </p>
+              </div>
+
+              {/* Checkout Command Control */}
+              <button className="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-blue-600/20 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-neutral-900 transition-all duration-150 text-center">
+                Proceed To Secure Checkout &rarr;
+              </button>
             </div>
 
           </div>
-        ))
-      )}
-    </div>
-  </Layout>
-</div>
-      
+        )}
+      </div>
+    </Layout>
       
   );
 };

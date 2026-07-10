@@ -70,7 +70,7 @@ const getAdminProducts = async (req, res) => {
     });
   }
 
-  const products = await productModel.find({
+  const products = await ProductModel.find({
     adminId: adminId,
   });
 

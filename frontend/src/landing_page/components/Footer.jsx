@@ -2,9 +2,9 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='text-center mt-4'>
-        &copy; 2026 all rights reserved.
-    </div>
+    <footer className="w-full py-6 text-center text-xs tracking-wide text-neutral-500 border-t border-neutral-900 bg-neutral-950">
+      &copy; {new Date().getFullYear()} SneakerHead. All rights reserved.
+    </footer>
   )
 }
 

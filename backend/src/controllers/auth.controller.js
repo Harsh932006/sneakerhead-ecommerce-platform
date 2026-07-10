@@ -250,7 +250,7 @@ const adminLogout = async (req, res) => {
     })
   }
 
-  const user = await adminModel.findById(adminId);
+  const user = await AdminModel.findById(adminId);
 
   if(!user){
     return res.status(404).json({
@@ -288,7 +288,7 @@ const getCurrAdmin = async (req, res) => {
     })
   }
 
-  const admin = await adminModel.findById(adminId);
+  const admin = await AdminModel.findById(adminId);
 
   if(!admin){
     return res.status(404).json({

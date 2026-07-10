@@ -21,7 +21,7 @@ const addToCart = async (req, res) => {
     }
 
     // Check if product exists
-    const product = await productModel.findById(productId);
+    const product = await ProductModel.findById(productId);
 
     if (!product) {
       return res.status(404).json({

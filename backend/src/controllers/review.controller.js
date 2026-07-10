@@ -1,4 +1,4 @@
-const productModel = require("../models/product.model");
+const {ProductModel} = require("../models/product.model");
 const {reviewModel, validateReview} = require("../models/review.model");
 
 const addReview = async (req, res) => {
@@ -13,10 +13,11 @@ const addReview = async (req, res) => {
   }
     
     const {id} = req.params;
+    console.log(req.params);
     const user = req.session.userId;
     const {review} = req.body;
 
-    const product = await productModel.findById(id);
+    const product = await ProductModel.findById(id);
 
     if (!product) {
       return res.status(404).json({
@@ -49,6 +50,7 @@ const addReview = async (req, res) => {
       }
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       message: "Something went wrong",
     });
