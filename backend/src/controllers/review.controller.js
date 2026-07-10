@@ -1,10 +1,17 @@
 const productModel = require("../models/product.model");
-const reviewModel = require("../models/review.model");
+const {reviewModel, validateReview} = require("../models/review.model");
 
 const addReview = async (req, res) => {
   try {
     
-    console.log(req.params);
+    const {error} = validateReview(req.body);
+
+    if(error){
+    return res.status(400).json({
+      message: error.details[0].message,
+    })
+  }
+    
     const {id} = req.params;
     const user = req.session.userId;
     const {review} = req.body;
@@ -50,7 +57,6 @@ const addReview = async (req, res) => {
 
 const getReviews = async (req, res) => {
   const reviews = await reviewModel.find({}).populate("user");
-  console.log(reviews);
 
   if(!reviews){
     return res.status(404).json({
@@ -66,11 +72,9 @@ const getReviews = async (req, res) => {
 
 const deleteReview = async (req, res) => {
 
-  console.log(req.params);
   const {reviewId} = req.params;
 
   const user = req.session.userId;
-  console.log(user);
 
   if(!user){
     return res.status(401).json({

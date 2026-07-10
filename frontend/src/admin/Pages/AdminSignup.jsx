@@ -7,11 +7,30 @@ import AdminNavbar from "./AdminNavbar";
 import { toast } from "react-toastify";
 
 const AdminSignup = () => {
-  const [username, setUsername] = useState("");
-  const [orgName, setOrgName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [orgName, setOrgName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [address, setAddress] = useState("");
+
+
+  const [formData, setFormData] = useState({
+    username: "",
+    orgName: "",
+    email: "",
+    password: "",
+    address: ""
+  });
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
 
   const {checkAdminAuth} = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,20 +42,19 @@ const AdminSignup = () => {
       const response = await axios.post(
         "http://localhost:3000/api/auth/admin-register",
         {
-          username,
-          orgName,
-          email,
-          password,
-          address,
+          username: formData.username,
+          orgName: formData.orgName,
+          email: formData.email,
+          password: formData.password,
+          address: formData.address,
         },
         {
           withCredentials: true,
         },
       );
-      console.log(response.data);
 
       await checkAdminAuth();
-      navigate("/admin-login");
+      navigate("/admin-dashboard");
       toast.success(response.data.message);
     } catch (err) {
       console.log(err);
@@ -53,34 +71,44 @@ const AdminSignup = () => {
         action=""
       >
         <input
+        required
+        name="username"
           type="text"
           placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={formData.username}
+          onChange={handleChange}
         />
         <input
+        required
+        name="orgName"
           type="text"
           placeholder="Enter organization name"
-          value={orgName}
-          onChange={(e) => setOrgName(e.target.value)}
+          value={formData.orgName}
+          onChange={handleChange}
         />
         <input
+        required
+        name="email"
           type="text"
           placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
         />
         <input
+        required
+        name="password"
           type="password"
           placeholder="Create password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
         />
         <input
+        required
+        name="address"
           type="text"
           placeholder="Enter your address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          value={formData.address}
+          onChange={handleChange}
         />
         <button type="submit">Sign Up</button>
       </form>

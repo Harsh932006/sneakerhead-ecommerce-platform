@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema} = require("mongoose");
-const userModel = require("../models/user.model")
+const Joi = require("joi");
 
 const reviewSchema = new Schema({
     review: {
@@ -21,4 +21,15 @@ const reviewSchema = new Schema({
 
 const Review = mongoose.model("Review", reviewSchema);
 
-module.exports = Review;
+const validateReview = (review) => {
+    const schema = Joi.object({
+        review: Joi.string().required(),
+    })
+
+    return schema.validate(review);
+}
+
+module.exports = {
+    Review,
+    validateReview
+};

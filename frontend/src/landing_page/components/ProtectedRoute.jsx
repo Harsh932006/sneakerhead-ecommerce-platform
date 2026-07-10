@@ -17,7 +17,6 @@ const ProtectedRoute = ({children}) => {
         },
       );
 
-      console.log(response.data);
       setIsAuthenticated(true);
       setLoading(false);
 

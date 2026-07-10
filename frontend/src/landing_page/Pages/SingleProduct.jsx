@@ -53,7 +53,6 @@ const SingleProduct = () => {
         }
       )
 
-      console.log(response.data);
       toast.success(response.data.message);
 
     }catch(err){

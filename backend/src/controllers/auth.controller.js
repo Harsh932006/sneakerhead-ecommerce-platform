@@ -1,11 +1,21 @@
 const router = require("../models/user.model");
 const crypto = require("crypto");
-const userModel = require("../models/user.model");
-const adminModel = require("../models/admin.model");
+const {userModel, validateUser} = require("../models/user.model");
+const {AdminModel, validateAdmin} = require("../models/admin.model");
 const session = require("express-session");
 
 //user auth
 const userRegister = async (req, res) => {
+
+  const {error} = validateUser(req.body);
+
+  if(error){
+    return res.status(400).json({
+      message: error.details[0].message,
+    })
+  }
+
+
   const { username, email, password } = req.body;
 
   const isAlreadyRegisterd = await userModel.findOne({ email });
@@ -146,9 +156,19 @@ const getCurrUser = async (req, res) => {
 
 //admin auth
 const adminRegister = async (req, res) => {
+
+  const {error} = validateAdmin(req.body);
+
+  if(error){
+    return res.status(400).json({
+      message: error.details[0].message,
+    })
+  }
+
+
   const {username, orgName, email, password, address} = req.body;
 
-  const isAlreadyRegistered = await adminModel.findOne({email});
+  const isAlreadyRegistered = await AdminModel.findOne({email});
 
   if(isAlreadyRegistered){
     return res.status(409).json({
@@ -158,7 +178,7 @@ const adminRegister = async (req, res) => {
 
   const hashedPassword = crypto.createHash("sha256").update(password).digest("hex");
 
-  const user = await adminModel.create({
+  const user = await AdminModel.create({
     username,
     orgName,
     email,
@@ -183,7 +203,7 @@ const adminRegister = async (req, res) => {
 const adminLogin = async (req, res) => {
   const {email, password} = req.body;
 
-  const user = await adminModel.findOne({email});
+  const user = await AdminModel.findOne({email});
 
   if(!user){
     return res.status(401).json({

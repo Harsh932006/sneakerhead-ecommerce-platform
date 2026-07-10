@@ -50,8 +50,8 @@ const Review = ({ productId }) => {
       );
 
       toast.success("Review added successfully");
-      setReview("");
       fetchReviews();
+      setReview("");
     } catch (err) {
       console.log(err);
     }

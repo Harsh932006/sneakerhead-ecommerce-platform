@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema} = require("mongoose");
+const Joi = require("joi");
 
 const productSchema = new Schema({
     name: {
@@ -24,5 +25,21 @@ const productSchema = new Schema({
     }
 });
 
-const productModel = mongoose.model("Product", productSchema);
-module.exports = productModel;
+const ProductModel = mongoose.model("Product", productSchema);
+
+const validateProduct = (product) => {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        desc: Joi.string().required(),
+        price: Joi.number().required(),
+        image: Joi.string().required(),
+    })
+
+    return schema.validate(product);
+}
+
+
+module.exports = {
+    ProductModel,
+    validateProduct,
+};

@@ -6,14 +6,30 @@ import AdminNavbar from "./AdminNavbar";
 import {toast} from "react-toastify"
 
 const EditMyProduct = () => {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  // const [name, setName] = useState("");
+  // const [desc, setDesc] = useState("");
+  // const [price, setPrice] = useState("");
+  // const [image, setImage] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    desc: "",
+    price: "",
+    image: ""
+  })
 
   const {id} = useParams();
 
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
 
   useEffect(() => {
     fetchProduct();
@@ -46,10 +62,10 @@ const EditMyProduct = () => {
         await axios.patch(
             `http://localhost:3000/api/products/${id}`,
             {
-                name,
-                desc,
-                price,
-                image
+                name: formData.name,
+                desc: formData.desc,
+                price: formData.price,
+                image: formData.image,
             },
             {
                 withCredentials: true,
@@ -67,10 +83,10 @@ const EditMyProduct = () => {
       <AdminNavbar />
 
       <form className="login-form flex flex-col items-center justify-start pt-20 gap-10" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Enter product name" value={name} onChange={(e) => setName(e.target.value)}/>
-        <textarea type="text" placeholder="Enter product desc" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
-        <input type="number" placeholder="Enter price of product" value={price} onChange={(e) => setPrice(e.target.value)}/>
-        <input type="text" placeholder="Provide image url" value={image} onChange={(e) => setImage(e.target.value)} />
+        <input required name="name" type="text" placeholder="Enter product name" value={formData.name} onChange={handleChange}/>
+        <textarea required name="desc" type="text" placeholder="Enter product desc" value={formData.desc} onChange={handleChange}></textarea>
+        <input required name="price" type="number" placeholder="Enter price of product" value={formData.price} onChange={handleChange}/>
+        <input required name="image" type="text" placeholder="Provide image url" value={formData.image} onChange={handleChange} />
         <button type="submit">Edit Product</button>
       </form>
     </div>

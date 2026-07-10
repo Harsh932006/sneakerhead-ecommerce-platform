@@ -7,8 +7,23 @@ import AdminNavbar from './AdminNavbar';
 import { toast } from "react-toastify";
 
 const AdminLoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
 
   const {checkAdminAuth} = useContext(AuthContext);
   const navigate = useNavigate();
@@ -20,8 +35,8 @@ const AdminLoginPage = () => {
       const response = await axios.post(
         "http://localhost:3000/api/auth/admin-login",
         {
-          email,
-          password,
+          email: formData.email,
+          password: formData.password,
         },
         {
           withCredentials: true,
@@ -43,8 +58,8 @@ const AdminLoginPage = () => {
         <h1 className="text-center text-4xl pt-5">Login As Admin</h1>
 
         <form className='login-form flex flex-col items-center justify-start pt-20 gap-10' onSubmit={handleFormSubmit} action="">
-          <input type="text" placeholder='Enter your email' value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input required name="email" type="text" placeholder='Enter your email' value={formData.email} onChange={handleChange} />
+          <input required name="password" type="password" placeholder='Enter your password' value={formData.password} onChange={handleChange} />
           <button type="submit">Log In</button>
         </form>
     </div>
