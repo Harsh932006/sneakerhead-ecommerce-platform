@@ -11,7 +11,6 @@ const HomePage = () => {
       
       <div className="w-full max-w-8xl mx-auto flex flex-col gap-20 px-4 md:px-8 py-6">
         
-        {/* Main Hero Showcase */}
         <Hero />
 
         

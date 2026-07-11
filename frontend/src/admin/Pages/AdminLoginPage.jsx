@@ -7,8 +7,6 @@ import AdminNavbar from './AdminNavbar';
 import { toast } from "react-toastify";
 
 const AdminLoginPage = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -33,7 +31,7 @@ const AdminLoginPage = () => {
 
     try{
       const response = await axios.post(
-        "http://localhost:3000/api/auth/admin-login",
+        "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/admin-login",
         {
           email: formData.email,
           password: formData.password,

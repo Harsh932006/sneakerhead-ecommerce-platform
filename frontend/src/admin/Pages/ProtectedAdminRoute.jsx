@@ -14,7 +14,7 @@ const ProtectedAdminRoute = ({children}) => {
         try{
 
             const response = await axios.get(
-                "http://localhost:3000/api/auth/curr-admin",
+                "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/curr-admin",
                 {
                     withCredentials: true
                 }

@@ -6,10 +6,6 @@ import AdminNavbar from "./AdminNavbar";
 import {toast} from "react-toastify"
 
 const EditMyProduct = () => {
-  // const [name, setName] = useState("");
-  // const [desc, setDesc] = useState("");
-  // const [price, setPrice] = useState("");
-  // const [image, setImage] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,7 +34,7 @@ const EditMyProduct = () => {
   const fetchProduct = async () => {
     try{
         const response = await axios.get(
-            `http://localhost:3000/api/products/${id}`,
+            `https://sneakerhead-ecommerce-platform.vercel.app/api/products/${id}`,
             {
                 withCredentials: true,
             }
@@ -60,7 +56,7 @@ const EditMyProduct = () => {
 
     try{
         await axios.patch(
-            `http://localhost:3000/api/products/${id}`,
+            `https://sneakerhead-ecommerce-platform.vercel.app/api/products/${id}`,
             {
                 name: formData.name,
                 desc: formData.desc,

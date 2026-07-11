@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const LoginPage = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -31,7 +29,7 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/user-login",
+        "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/user-login",
         {
           email: formData.email,
           password: formData.password,

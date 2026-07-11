@@ -7,12 +7,6 @@ import AdminNavbar from "./AdminNavbar";
 import { toast } from "react-toastify";
 
 const AdminSignup = () => {
-  // const [username, setUsername] = useState("");
-  // const [orgName, setOrgName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [address, setAddress] = useState("");
-
 
   const [formData, setFormData] = useState({
     username: "",
@@ -40,7 +34,7 @@ const AdminSignup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/admin-register",
+        "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/admin-register",
         {
           username: formData.username,
           orgName: formData.orgName,

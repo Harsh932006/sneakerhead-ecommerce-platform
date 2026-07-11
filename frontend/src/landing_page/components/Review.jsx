@@ -15,7 +15,7 @@ const Review = ({ productId }) => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/products/reviews",
+        "https://sneakerhead-ecommerce-platform.vercel.app/api/products/reviews",
         {
           withCredentials: true,
         },
@@ -40,7 +40,7 @@ const Review = ({ productId }) => {
       }
 
       const response = await axios.post(
-        `http://localhost:3000/api/products/${productId}/review`,
+        `https://sneakerhead-ecommerce-platform.vercel.app/api/products/${productId}/review`,
         {
           review: review,
         },
@@ -63,7 +63,7 @@ const Review = ({ productId }) => {
       }
 
       const response = await axios.delete(
-        `http://localhost:3000/api/products/${product}/review/${review}`,
+        `https://sneakerhead-ecommerce-platform.vercel.app/api/products/${product}/review/${review}`,
         {
           withCredentials: true,
         },

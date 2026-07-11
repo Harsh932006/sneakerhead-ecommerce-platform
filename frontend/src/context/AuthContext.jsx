@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) => {
     const checkAuth = async () => {
         try{
             const response = await axios.get(
-                "http://localhost:3000/api/auth/curr-user",
+                "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/curr-user",
                 {
                     withCredentials: true,
                 }
@@ -28,7 +28,7 @@ export const AuthProvider = ({children}) => {
     const checkAdminAuth = async () => {
         try{
             const response = await axios.get(
-                "http://localhost:3000/api/auth/curr-admin",
+                "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/curr-admin",
                 {
                     withCredentials: true,
                 }
