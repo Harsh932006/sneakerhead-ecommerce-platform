@@ -11,7 +11,7 @@ const session = require("express-session");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 main()
 .then(() => {
@@ -26,7 +26,7 @@ async function main() {
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }));
 
@@ -42,6 +42,10 @@ app.use(session({
     }
 }));
 
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", reviewRoutes);
 app.use("/api/products", productRoutes);
@@ -53,6 +57,8 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-    console.log(`App is listening on port ${PORT}`);
-})
+// app.listen(PORT, () => {
+//     console.log(`App is listening on port ${PORT}`);
+// })
+
+module.exports = app;
