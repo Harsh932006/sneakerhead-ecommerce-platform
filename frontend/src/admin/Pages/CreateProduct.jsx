@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const CreateProduct = () => {
+const CreateProduct = ({onProductCreated}) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
@@ -38,7 +38,7 @@ const CreateProduct = () => {
         },
       );
 
-      console.log(response.data);
+
       setName("");
       setDesc("");
       setPrice("");
@@ -79,13 +79,12 @@ const CreateProduct = () => {
               placeholder="e.g. Air Jordan 1 Retro High"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              // FORCE: Inline width override breaks any old hidden global CSS styles
               style={{ width: '100%' }}
               className="w-full px-4 py-3 rounded-xl bg-neutral-950 border border-neutral-800 text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
             />
           </div>
 
-          {/* Description Container */}
+          
           <div className="flex flex-col gap-1.5 w-full">
             <label className="text-xs font-semibold text-blue-400 tracking-wider uppercase px-1">
               Description
@@ -95,32 +94,30 @@ const CreateProduct = () => {
               rows="4"
               placeholder="Describe the sneakers, materials, limited collaborative details..."
               value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-              // FORCE: Inline width override makes this snap perfectly flush with the fields above and below
+              onChange={(e) => setDesc(e.target.value)}         
               style={{ width: '100%' }}
               className="w-full px-4 py-3 rounded-xl bg-neutral-950 border border-neutral-800 text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 resize-none"
             ></textarea>
           </div>
 
-          {/* Price Container */}
+          
           <div className="flex flex-col gap-1.5 w-full">
             <label className="text-xs font-semibold text-blue-400 tracking-wider uppercase px-1">
-              Price (USD)
+              Price (INR)
             </label>
             <input
               required
               type="number"
-              placeholder="299"
+              placeholder="2999"
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              // FORCE: Inline width override keeps scaling behavior fully identical
+              onChange={(e) => setPrice(e.target.value)}             
               style={{ width: '100%' }}
               className="w-full px-4 py-3 rounded-xl bg-neutral-950 border border-neutral-800 text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
             />
           </div>
         </div>
 
-        {/* Right Grid: Asset Media File Drop Area Layout */}
+        
         <div className="lg:col-span-5 flex flex-col justify-between gap-5">
           <div className="flex flex-col gap-1.5 h-full">
             <label className="text-xs font-semibold text-blue-400 tracking-wider uppercase px-1">

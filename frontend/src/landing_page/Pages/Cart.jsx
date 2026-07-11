@@ -68,10 +68,10 @@ const Cart = () => {
   return (
       
 <Layout>
-      {/* Outer Wrapper matches your 92% screen layout scale configuration */}
+      
       <div className="w-full flex flex-col gap-10 py-4">
         
-        {/* Header Block: Left Title and Right Action Button */}
+        
         <div className="w-full flex items-center justify-between border-b border-neutral-900 pb-5">
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl md:text-3xl font-black text-neutral-100 tracking-tight">Shopping Bag</h1>
@@ -88,7 +88,7 @@ const Cart = () => {
           )}
         </div>
 
-        {/* Master Context Container Routing Panels */}
+        
         {!user ? (
           <div className="w-full border-2 border-dashed border-neutral-800 rounded-2xl p-16 text-center bg-neutral-900/10 backdrop-blur-sm min-h-[40vh] flex flex-col items-center justify-center">
             <i className="fa-solid fa-lock text-4xl text-neutral-700 mb-3"></i>
@@ -102,19 +102,19 @@ const Cart = () => {
             <p className="text-sm text-neutral-500 mt-1">Looks like you haven't added any sneaker drops to your bag yet.</p>
           </div>
         ) : (
-          /* Premium Split Layout Pattern: List Items on Left (7 cols), Billing Invoice Grid on Right (5 cols) */
+          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
             
-            {/* Left Box Feed: Shopping Cart Items Stack List */}
+            
             <div className="lg:col-span-7 w-full flex flex-col gap-4">
               {cart.map((item) => (
                 <div 
                   className="w-full p-4 md:p-5 rounded-2xl bg-neutral-900 border border-neutral-800 flex flex-col sm:flex-row gap-5 items-center justify-between shadow-xl group" 
                   key={item._id}
                 >
-                  {/* Left Side Content Container */}
+                  
                   <div className="flex flex-col sm:flex-row gap-5 items-center w-full">
-                    {/* Dynamic Image Canvas Layout */}
+                    
                     <div className="w-full sm:w-32 h-32 bg-neutral-950 border border-neutral-800/60 rounded-xl overflow-hidden shrink-0 relative">
                       <img 
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
@@ -123,7 +123,7 @@ const Cart = () => {
                       />
                     </div>
                     
-                    {/* Typography Text Summary */}
+                    
                     <div className="flex flex-col text-center sm:text-left gap-1 truncate w-full">
                       <h2 className="text-lg font-black text-neutral-100 tracking-tight truncate group-hover:text-blue-400 transition-colors duration-200">
                         {item.productId?.name}
@@ -135,7 +135,7 @@ const Cart = () => {
                     </div>
                   </div>
 
-                  {/* Right Side Pricing and Actions Wrapper */}
+                  
                   <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-4 w-full sm:w-auto shrink-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
                     <div className="text-left sm:text-right flex flex-col">
                       <span className="text-[10px] font-bold text-neutral-500 tracking-wider uppercase hidden sm:block">Item Total</span>
@@ -157,7 +157,7 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* Right Box Feed: Modern Summary Billing Checkout Card */}
+            
             <div className="lg:col-span-5 w-full p-6 md:p-8 rounded-2xl bg-neutral-900 border border-neutral-800 shadow-2xl flex flex-col gap-6">
               <div>
                 <h3 className="text-lg font-bold text-neutral-100 tracking-tight">Order Summary</h3>

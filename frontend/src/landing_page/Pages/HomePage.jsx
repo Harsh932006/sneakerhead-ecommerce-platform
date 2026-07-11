@@ -5,21 +5,16 @@ import AdminSection from './AdminSection'
 
 const HomePage = () => {
   return (
-    // <div className='home p-2 bg-neutral-800'>
-    //     <Layout>
-    //       <Hero />
-    //       <AdminSection />
-    //     </Layout>    
-    // </div>
+    
 
     <Layout>
-      {/* Outer wrapper manages clean spacing between content sections */}
+      
       <div className="w-full max-w-8xl mx-auto flex flex-col gap-20 px-4 md:px-8 py-6">
         
         {/* Main Hero Showcase */}
         <Hero />
 
-        {/* 🌟 NEW: E-Commerce Value Trust Banner */}
+        
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 rounded-2xl bg-neutral-900/40 border border-neutral-800/60 backdrop-blur-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-600/10 rounded-xl text-blue-400 text-xl">
@@ -59,7 +54,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* 🌟 NEW: Curated Category Quick Links */}
+        
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-1">
             <h2 className="text-2xl md:text-3xl font-black tracking-tight text-neutral-100">Shop by Category</h2>
@@ -81,7 +76,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* Dynamic Multi-Seller Segment */}
+        
         <AdminSection />
 
 

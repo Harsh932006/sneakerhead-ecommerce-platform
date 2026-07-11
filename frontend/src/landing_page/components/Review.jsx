@@ -29,7 +29,7 @@ const Review = ({ productId }) => {
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [userReviews]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -50,7 +50,6 @@ const Review = ({ productId }) => {
       );
 
       toast.success("Review added successfully");
-      fetchReviews();
       setReview("");
     } catch (err) {
       console.log(err);
@@ -83,55 +82,11 @@ const Review = ({ productId }) => {
   
 
   return (
-    // <div className="mb-10">
-    //   <hr />
-    //   <h1 className="text-center p-10 font-bold text-4xl">Add Reviews</h1>
-    //   <form
-    //     onSubmit={handleFormSubmit}
-    //     className="flex flex-col content-center items-center gap-5"
-    //   >
-    //     <textarea
-    //       value={review}
-    //       onChange={(e) => setReview(e.target.value)}
-    //       placeholder="Enter your review here."
-    //       className="h-50"
-    //     ></textarea>
-    //     <button className="bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all px-8 py-3.5 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 flex-1 sm:flex-none text-center">
-    //       Add Review
-    //     </button>
-    //   </form>
-
-    //   <div className="p-10 mt-10">
-    //     <h1 className="text-center text-4xl font-bold">User Reviews</h1>
-    //     <div className="reviews-wrapper">
-    //       {filteredReviews.length > 0 ? (
-    //         filteredReviews.map((review) => {
-    //           return (
-    //             <div key={review._id} className="review relative">
-    //               <h2>
-    //                 <i className="fa-solid fa-user"></i> {review.user?.username}
-    //               </h2>
-    //               <p>{review.review}</p>
-                  
-    //               <i
-    //                 className="fa-solid fa-trash-can absolute right-4.5 top-5.5 text-xl cursor-pointer hover:text-red-600 active:scale-80"
-    //                 onClick={() => handleDelete(review.product, review._id)}
-    //               ></i>
-    //             </div>
-    //           );
-    //         })
-    //       ) : (
-    //         <h1 className="text-xl italic p-10 text-center" style={{width: "100%"}}>
-    //           Oops there is no reviews for this product.
-    //         </h1>
-    //       )}
-    //     </div>
-    //   </div>
-    // </div>
+   
 
     <section className="w-full flex flex-col gap-10">
       
-      {/* Structural Header Grid */}
+      
       <div className="flex flex-col gap-1">
         <h2 className="text-2xl md:text-3xl font-black tracking-tight text-neutral-100">
           Community Feedback
@@ -141,10 +96,10 @@ const Review = ({ productId }) => {
         </p>
       </div>
 
-      {/* Main Two-Column Master Grid Splitter */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start w-full">
         
-        {/* Left Column: Create Review Panel (Takes 5 Spaces) */}
+        
         <div className="lg:col-span-5 w-full p-6 md:p-8 rounded-2xl bg-neutral-900 border border-neutral-800 flex flex-col gap-5 shadow-2xl">
           <div>
             <h3 className="text-lg font-bold text-neutral-100 tracking-tight">Write a Review</h3>
@@ -172,7 +127,7 @@ const Review = ({ productId }) => {
           </form>
         </div>
 
-        {/* Right Column: Active Feed Stream Layout (Takes 7 Spaces) */}
+        {/* Right Column: Active Feed Stream Layout */}
         <div className="lg:col-span-7 w-full flex flex-col gap-4">
           <div className="border-b border-neutral-900 pb-3 flex items-center justify-between">
             <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-wider">
@@ -192,7 +147,7 @@ const Review = ({ productId }) => {
                     className="w-full p-5 rounded-2xl bg-neutral-900/40 border border-neutral-800/60 shadow-md flex items-start justify-between gap-4 group transition-all duration-200 hover:border-neutral-800"
                   >
                     <div className="flex gap-4 items-start">
-                      {/* Avatar Node Concept */}
+                      
                       <div className="p-2.5 bg-neutral-950 border border-neutral-800 text-blue-400 rounded-xl text-sm shrink-0">
                         <i className="fa-solid fa-user"></i>
                       </div>

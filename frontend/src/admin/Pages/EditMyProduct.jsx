@@ -79,22 +79,12 @@ const EditMyProduct = () => {
   }
 
   return (
-    // <div className="admin-login bg-black">
-    //   <AdminNavbar />
-
-    //   <form className="login-form flex flex-col items-center justify-start pt-20 gap-10" onSubmit={handleSubmit}>
-    //     <input required name="name" type="text" placeholder="Enter product name" value={formData.name} onChange={handleChange}/>
-    //     <textarea required name="desc" type="text" placeholder="Enter product desc" value={formData.desc} onChange={handleChange}></textarea>
-    //     <input required name="price" type="number" placeholder="Enter price of product" value={formData.price} onChange={handleChange}/>
-    //     <input required name="image" type="text" placeholder="Provide image url" value={formData.image} onChange={handleChange} />
-    //     <button type="submit">Edit Product</button>
-    //   </form>
-    // </div>
+    
 
     <div className="bg-neutral-950 min-h-screen w-full flex flex-col text-white antialiased">
       <AdminNavbar />
 
-      {/* Centers layout cards smoothly within display frames */}
+      
       <div className="flex-grow w-full max-w-md mx-auto px-4 flex flex-col items-center justify-center py-12">
         <h1 className="text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 mb-6">
           Modify Product

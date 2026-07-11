@@ -3,12 +3,10 @@ import CreateProduct from "./CreateProduct";
 import ShowMyProdcuts from "./ShowMyProdcuts";
 
 const AdminDashboardPage = () => {
+
+  
   return (
-    // <div className="bg-black admin-dashboard">
-    //   <AdminNavbar />
-    //   <CreateProduct />
-    //   <ShowMyProdcuts />
-    // </div>
+    
 
     <div className="bg-neutral-950 min-h-screen text-white antialiased flex flex-col">
       <AdminNavbar />

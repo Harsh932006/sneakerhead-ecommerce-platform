@@ -21,7 +21,7 @@ const addProduct = async (req, res) => {
       });
     }
 
-    const admin = await adminModel.findById(adminId);
+    const admin = await AdminModel.findById(adminId);
 
     if (!admin) {
       return res.status(403).json({
@@ -51,6 +51,7 @@ const addProduct = async (req, res) => {
 
     res.status(200).json({
       message: "Product created successfully",
+      product
     });
   } catch (err) {
     console.log(err);

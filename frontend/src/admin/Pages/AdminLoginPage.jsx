@@ -52,23 +52,12 @@ const AdminLoginPage = () => {
   }
 
   return (
-    // <div className='admin-login bg-black'>
-    //     {/* <AdminNavbar /> */} 
-
-    //     <h1 className="text-center text-4xl pt-5">Login As Admin</h1>
-
-    //     <form className='login-form flex flex-col items-center justify-start pt-20 gap-10' onSubmit={handleFormSubmit} action="">
-    //       <input required name="email" type="text" placeholder='Enter your email' value={formData.email} onChange={handleChange} />
-    //       <input required name="password" type="password" placeholder='Enter your password' value={formData.password} onChange={handleChange} />
-    //       <button type="submit">Log In</button>
-    //     </form>
-    // </div>
 
     <div className="bg-neutral-950 min-h-screen w-full flex flex-col items-center justify-center text-white antialiased px-4 py-12">
-        {/* <AdminNavbar /> */} 
+        
 
         <div className="w-full max-w-md flex flex-col items-center">
-          <h1 className="text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 mb-6">
+          <h1 className="text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to from-blue-400 to-blue-600 mb-6">
             Admin Portal
           </h1>
 
@@ -82,7 +71,7 @@ const AdminLoginPage = () => {
               <p className="text-sm text-neutral-400 mt-1">Access your merchant seller metrics dashboard</p>
             </div>
 
-            {/* Email Field */}
+           
             <div className="w-full flex flex-col gap-2">
               <label className="text-xs font-semibold text-blue-400 tracking-wider uppercase px-1">Email Address</label>
               <input 
@@ -96,7 +85,7 @@ const AdminLoginPage = () => {
               />
             </div>
 
-            {/* Password Field */}
+           
             <div className="w-full flex flex-col gap-2">
               <label className="text-xs font-semibold text-blue-400 tracking-wider uppercase px-1">Password</label>
               <input 

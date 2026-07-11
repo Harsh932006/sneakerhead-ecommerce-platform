@@ -32,7 +32,6 @@ const validateProduct = (product) => {
         name: Joi.string().required(),
         desc: Joi.string().required(),
         price: Joi.number().required(),
-        image: Joi.string().required(),
     })
 
     return schema.validate(product);
