@@ -11,7 +11,7 @@ const ProtectedRoute = ({children}) => {
   const checkAuth = async () => {
     try {
       const response = await axios.get(
-        "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/curr-user",
+        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/curr-user",
         {
           withCredentials: true,
         },

@@ -30,7 +30,7 @@ const SignupPage = () => {
 
     try {
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/user-register",
+        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/user-register",
         {
           username: formData.username,
           email: formData.email,

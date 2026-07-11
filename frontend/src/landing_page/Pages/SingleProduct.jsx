@@ -18,7 +18,7 @@ const SingleProduct = () => {
         try{
 
             const response = await axios.get(
-                `https://sneakerhead-ecommerce-platform.vercel.app/api/products/${id}`,
+                `https://sneakerhead-ecommerce-platform.onrender.com/api/products/${id}`,
                 {
                     withCredentials: true,
                 }
@@ -44,7 +44,7 @@ const SingleProduct = () => {
       }
 
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.vercel.app/api/cart/add",
+        "https://sneakerhead-ecommerce-platform.onrender.com/api/cart/add",
         {
           productId: productId,
         },

@@ -31,7 +31,7 @@ const CreateProduct = ({onProductCreated}) => {
       formData.append("image", image);
 
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.vercel.app/api/products",
+        "https://sneakerhead-ecommerce-platform.onrender.com/api/products",
         formData,
         {
           withCredentials: true,

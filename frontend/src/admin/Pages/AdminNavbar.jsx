@@ -13,7 +13,7 @@ const AdminNavbar = () => {
     const handleLogout = async () => {
         try{
             const response = await axios.get(
-                "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/admin-logout",
+                "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/admin-logout",
                 {
                     withCredentials: true
                 }

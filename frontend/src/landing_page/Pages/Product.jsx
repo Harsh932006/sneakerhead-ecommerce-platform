@@ -17,7 +17,7 @@ const Product = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("https://sneakerhead-ecommerce-platform.vercel.app/api/products");
+      const response = await axios.get("https://sneakerhead-ecommerce-platform.onrender.com/api/products");
 
       setProducts(response.data.products);
     } catch (err) {

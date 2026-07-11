@@ -34,7 +34,7 @@ const AdminSignup = () => {
 
     try {
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.vercel.app/api/auth/admin-register",
+        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/admin-register",
         {
           username: formData.username,
           orgName: formData.orgName,

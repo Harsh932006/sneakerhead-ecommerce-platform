@@ -15,7 +15,7 @@ const ShowMyProdcuts = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "https://sneakerhead-ecommerce-platform.vercel.app/api/products/admin-products",
+        "https://sneakerhead-ecommerce-platform.onrender.com/api/products/admin-products",
         {
           withCredentials: true,
         },
@@ -31,7 +31,7 @@ const ShowMyProdcuts = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete(`https://sneakerhead-ecommerce-platform.vercel.app/api/products/${productId}`, {
+      await axios.delete(`https://sneakerhead-ecommerce-platform.onrender.com/api/products/${productId}`, {
         withCredentials: true,
       });
 
