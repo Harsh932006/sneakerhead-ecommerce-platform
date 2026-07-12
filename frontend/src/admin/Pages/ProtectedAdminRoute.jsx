@@ -1,53 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Navigate } from 'react-router-dom';
 import Loading from '../../landing_page/components/Loading';
-import axios from "axios"
 import { toast } from 'react-toastify';
-
+import { AuthContext } from '../../context/AuthContext';
 
 const ProtectedAdminRoute = ({children}) => {
-    const [loader, setloader] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-    const checkAuth = async () => {
-
-        try{
-
-            const response = await axios.get(
-                "http://localhost:3000/api/auth/curr-admin",
-                {
-                    withCredentials: true
-                }
-            )
-
-            console.log(response.data);
-            setloader(false);
-            setIsAuthenticated(true);
-
-        }catch(err){
-            console.log(err);
-            setloader(false);
-            setIsAuthenticated(false);
-        }
-
-    }
+    const { admin, adminAuthLoading } = useContext(AuthContext);
 
     useEffect(() => {
-        checkAuth();
-    }, []);
-
-    useEffect(() => {
-        if(!loader && !isAuthenticated){
+        if(!adminAuthLoading && !admin){
           toast.error("Please login first to access dashboard.")
         }
-      }, [loader, isAuthenticated])
+      }, [adminAuthLoading, admin])
 
-    if(loader){
+    if(adminAuthLoading){
         return <Loading />
     }
 
-    if(!isAuthenticated){
-        return <Navigate to="/admin-login" />
+    if(!admin){
+        return <Navigate to="/" />
     }
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import { adminApi } from "../../api/adminApi"
 import AdminNavbar from "./AdminNavbar";
 import {toast} from "react-toastify"
 
@@ -33,19 +33,16 @@ const EditMyProduct = () => {
 
   const fetchProduct = async () => {
     try{
-        const response = await axios.get(
-            `http://localhost:3000/api/products/${id}`,
-            {
-                withCredentials: true,
-            }
-        )
+        const response = await adminApi.get(`/api/products/${id}`)
 
         const product = response.data.product;
 
-        setName(product.name);
-        setDesc(product.desc);
-        setPrice(product.price);
-        setImage(product.image);
+        setFormData({
+          name: product.name,
+          desc: product.desc,
+          price: product.price,
+          image: product.image,
+        });
     }catch(err){
         console.log(err);
     }
@@ -55,18 +52,12 @@ const EditMyProduct = () => {
     e.preventDefault();
 
     try{
-        await axios.patch(
-            `http://localhost:3000/api/products/${id}`,
-            {
-                name: formData.name,
-                desc: formData.desc,
-                price: formData.price,
-                image: formData.image,
-            },
-            {
-                withCredentials: true,
-            }
-        )
+        await adminApi.patch(`/api/products/${id}`, {
+            name: formData.name,
+            desc: formData.desc,
+            price: formData.price,
+            image: formData.image,
+        })
         navigate("/admin-dashboard")
         toast.success("Product updated successfully");
     }catch(err){

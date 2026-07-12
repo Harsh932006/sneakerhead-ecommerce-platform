@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import { userApi } from "../../api/userApi";
 import Layout from "../components/Layout";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
@@ -17,7 +17,7 @@ const Product = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/products");
+      const response = await userApi.get("/api/products");
 
       setProducts(response.data.products);
     } catch (err) {
@@ -31,15 +31,9 @@ const Product = () => {
         return toast.error("Please login to add products to cart");
       }
 
-      const response = await axios.post(
-        "http://localhost:3000/api/cart/add",
-        {
-          productId: productId,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await userApi.post("/api/cart/add", {
+        productId: productId,
+      });
 
       toast.success(response.data.message);
       

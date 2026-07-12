@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
+import { adminApi } from "../../api/adminApi";
 import { toast } from "react-toastify";
 
 const CreateProduct = ({onProductCreated}) => {
@@ -30,13 +30,7 @@ const CreateProduct = ({onProductCreated}) => {
       formData.append("price", price);
       formData.append("image", image);
 
-      const response = await axios.post(
-        "http://localhost:3000/api/products",
-        formData,
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await adminApi.post("/api/products", formData);
 
 
       setName("");
@@ -44,6 +38,8 @@ const CreateProduct = ({onProductCreated}) => {
       setPrice("");
       setImage(response.data.url);
       toast.success(response.data.message);
+
+      onProductCreated?.();
     } catch (err) {
       console.log(err);
     }

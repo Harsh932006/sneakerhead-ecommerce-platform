@@ -1,59 +1,27 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext, useEffect } from "react";
 import Loading from "./Loading";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
-const ProtectedRoute = ({children}) => {
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  const checkAuth = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/api/auth/curr-user",
-        {
-          withCredentials: true,
-        },
-      );
-
-      setIsAuthenticated(true);
-      setLoading(false);
-
-    } catch (err) {
-      console.log(err);
-      setIsAuthenticated(false);
-      setLoading(false);
-    }
-  };
+const ProtectedRoute = ({ children }) => {
+  const { user, authLoading } = useContext(AuthContext);
 
   useEffect(() => {
-    checkAuth();
-  }, []);
-
-  useEffect(() => {
-    if(!loading && !isAuthenticated){
-      toast.error("Please login first to access cart.")
+    if (!authLoading && !user) {
+      toast.error("Please login first to access cart.");
     }
-  }, [loading, isAuthenticated])
+  }, [authLoading, user]);
 
-  if(loading){
-    return <Loading />
+  if (authLoading) {
+    return <Loading />;
   }
 
-  if(!isAuthenticated){
-    return (
-      <>
-      <Navigate to="/login" />
-      </>
-    )
+  if (!user) {
+    return <Navigate to="/login" />;
   }
 
-  return (
-    <>
-    {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

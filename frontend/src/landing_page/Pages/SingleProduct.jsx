@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import axios from "axios"
+import { userApi } from "../../api/userApi"
 import { useState, useContext, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { AuthContext } from "../../context/AuthContext";
@@ -17,12 +17,7 @@ const SingleProduct = () => {
     const fetchProduct = async () => {
         try{
 
-            const response = await axios.get(
-                `http://localhost:3000/api/products/${id}`,
-                {
-                    withCredentials: true,
-                }
-            )
+            const response = await userApi.get(`/api/products/${id}`)
             
             setProduct(response.data.product);
 
@@ -43,15 +38,9 @@ const SingleProduct = () => {
         return toast.error("Please login to add products to cart");
       }
 
-      const response = await axios.post(
-        "http://localhost:3000/api/cart/add",
-        {
-          productId: productId,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await userApi.post("/api/cart/add", {
+        productId: productId,
+      })
 
       toast.success(response.data.message);
 

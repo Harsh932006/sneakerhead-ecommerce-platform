@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Layout from "../components/Layout";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import { userApi, setUserAccessToken } from "../../api/userApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -13,7 +13,7 @@ const SignupPage = () => {
     password: "",
   });
 
-  const { checkAuth } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -29,19 +29,15 @@ const SignupPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/user-register",
-        {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-      console.log(response.data);
-      await checkAuth();
+      const response = await userApi.post("/api/auth/user-register", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      setUserAccessToken(response.data.accessToken);
+      setUser(response.data.user);
+
       navigate("/");
       toast.success(response.data.message);
     } catch (err) {

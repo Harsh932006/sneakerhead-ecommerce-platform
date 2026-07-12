@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from "axios"
+import { adminApi, setAdminAccessToken } from "../../api/adminApi"
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
@@ -12,12 +12,8 @@ const AdminNavbar = () => {
 
     const handleLogout = async () => {
         try{
-            const response = await axios.get(
-                "http://localhost:3000/api/auth/admin-logout",
-                {
-                    withCredentials: true
-                }
-            )
+            const response = await adminApi.get("/api/auth/admin-logout")
+            setAdminAccessToken(null);
             setAdmin(null);
             navigate("/");
             toast.success(response.data.message);

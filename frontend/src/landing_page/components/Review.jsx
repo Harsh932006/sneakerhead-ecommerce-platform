@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import axios from "axios";
+import { userApi } from "../../api/userApi";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -14,12 +14,7 @@ const Review = ({ productId }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/products/reviews",
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await userApi.get("/api/products/reviews");
 
       setUserReviews(response.data.reviews);
     } catch (err) {
@@ -39,13 +34,10 @@ const Review = ({ productId }) => {
         return toast.error("Please login first to add the review");
       }
 
-      const response = await axios.post(
-        `http://localhost:3000/api/products/${productId}/review`,
+      const response = await userApi.post(
+        `/api/products/${productId}/review`,
         {
           review: review,
-        },
-        {
-          withCredentials: true,
         },
       );
 
@@ -62,11 +54,8 @@ const Review = ({ productId }) => {
         return toast.error("Please login first.");
       }
 
-      const response = await axios.delete(
-        `http://localhost:3000/api/products/${product}/review/${review}`,
-        {
-          withCredentials: true,
-        },
+      const response = await userApi.delete(
+        `/api/products/${product}/review/${review}`,
       );
       fetchReviews();
       toast.success("Review deleted successfully");

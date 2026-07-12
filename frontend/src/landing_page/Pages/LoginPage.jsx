@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import Layout from "../components/Layout";
 import { AuthContext } from "../../context/AuthContext";
+import { userApi, setUserAccessToken } from "../../api/userApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -13,7 +13,7 @@ const LoginPage = () => {
     formData: "",
   });
 
-  const { checkAuth } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChanges = (e) => {
@@ -29,18 +29,16 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/user-login",
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await userApi.post("/api/auth/user-login", {
+        email: formData.email,
+        password: formData.password,
+      });
 
-      await checkAuth();
+      // Refresh-token cookie is set by the backend automatically.
+      // We keep the short-lived access token in memory for API calls.
+      setUserAccessToken(response.data.accessToken);
+      setUser(response.data.user);
+
       navigate("/");
       toast.success("Logged in successfully");
     } catch (err) {

@@ -14,7 +14,7 @@ const addReview = async (req, res) => {
     
     const {id} = req.params;
     console.log(req.params);
-    const user = req.session.userId;
+    const user = req.user.id;
     const {review} = req.body;
 
     const product = await ProductModel.findById(id);
@@ -76,7 +76,7 @@ const deleteReview = async (req, res) => {
 
   const {reviewId} = req.params;
 
-  const user = req.session.userId;
+  const user = req.user.id;
 
   if(!user){
     return res.status(401).json({

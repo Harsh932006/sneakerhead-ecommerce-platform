@@ -13,7 +13,7 @@ const addProduct = async (req, res) => {
       })
     }
 
-    const adminId = req.session.adminId;
+    const adminId = req.admin.id;
 
     if (!adminId) {
       return res.status(403).json({
@@ -63,7 +63,7 @@ const addProduct = async (req, res) => {
 };
 
 const getAdminProducts = async (req, res) => {
-  const adminId = req.session.adminId;
+  const adminId = req.admin.id;
 
   if (!adminId) {
     return res.status(401).json({
@@ -114,7 +114,7 @@ const showOneProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const adminId = req.session.adminId;
+  const adminId = req.admin.id;
 
   if (!adminId) {
     return res.status(403).json({
@@ -132,7 +132,7 @@ const updateProduct = async (req, res) => {
     });
   }
 
-  const isAdmin = product.adminId == req.session.adminId;
+  const isAdmin = product.adminId == req.admin.id;
 
   if (!isAdmin) {
     return res.status(403).json({
@@ -155,7 +155,7 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  const adminId = req.session.adminId;
+  const adminId = req.admin.id;
 
   if (!adminId) {
     return res.status(403).json({

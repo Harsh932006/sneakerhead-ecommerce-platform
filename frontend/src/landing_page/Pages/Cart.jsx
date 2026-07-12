@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Layout from "../components/Layout";
-import axios from "axios";
+import { userApi } from "../../api/userApi";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -15,9 +15,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/cart", {
-        withCredentials: true,
-      });
+      const response = await userApi.get("/api/cart");
 
       // Store only the items array
       setCart(response.data.cart.items);
@@ -28,11 +26,10 @@ const Cart = () => {
 
   const removeFromCart = async (productId) => {
     try {
-      const response = await axios.delete("http://localhost:3000/api/cart", {
+      const response = await userApi.delete("/api/cart", {
         data: {
           productId: productId,
         },
-        withCredentials: true,
       });
 
       console.log(response.data);
@@ -45,12 +42,7 @@ const Cart = () => {
 
   const clearCart = async () => {
     try {
-      const response = await axios.delete(
-        "http://localhost:3000/api/cart/clear",
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await userApi.delete("/api/cart/clear");
 
       console.log(response.data);
       toast.success(response.data.message);

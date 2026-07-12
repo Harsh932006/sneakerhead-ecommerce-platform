@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
+import { adminApi, setAdminAccessToken } from "../../api/adminApi";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 import { toast } from "react-toastify";
@@ -26,28 +26,24 @@ const AdminSignup = () => {
   }
 
 
-  const {checkAdminAuth} = useContext(AuthContext);
+  const {setAdmin} = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/admin-register",
-        {
-          username: formData.username,
-          orgName: formData.orgName,
-          email: formData.email,
-          password: formData.password,
-          address: formData.address,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await adminApi.post("/api/auth/admin-register", {
+        username: formData.username,
+        orgName: formData.orgName,
+        email: formData.email,
+        password: formData.password,
+        address: formData.address,
+      });
 
-      await checkAdminAuth();
+      setAdminAccessToken(response.data.accessToken);
+      setAdmin(response.data.user);
+
       navigate("/admin-dashboard");
       toast.success(response.data.message);
     } catch (err) {

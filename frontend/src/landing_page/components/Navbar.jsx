@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios"
+import { userApi, setUserAccessToken } from "../../api/userApi"
 import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -12,13 +12,9 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try{
-      await axios.get(
-        "http://localhost:3000/api/auth/user-logout",
-        {
-          withCredentials: true,
-        }
-      )
+      await userApi.get("/api/auth/user-logout")
 
+      setUserAccessToken(null);
       setUser(null);
       navigate("/");
       toast.success("Logged out successfully.");

@@ -7,7 +7,6 @@ const productRoutes = require("./src/routes/product.routes");
 const cartRoutes = require("./src/routes/cart.routes");
 const reviewRoutes = require("./src/routes/review.routes");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const cors = require("cors");
 
 const app = express();
@@ -30,17 +29,6 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    }
-}));
 
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");

@@ -4,7 +4,7 @@ const {ProductModel} = require("../models/product.model");
 const addToCart = async (req, res) => {
   try {
     const { productId } = req.body;
-    const userId = req.session.userId;
+    const userId = req.user.id;
 
     // Check if user is logged in
     if (!userId) {
@@ -78,7 +78,7 @@ const addToCart = async (req, res) => {
 const getCart = async (req, res) => {
   try{
 
-    const userId = req.session.userId;
+    const userId = req.user.id;
 
     if(!userId){
       return res.status(401).json({
@@ -109,7 +109,7 @@ const getCart = async (req, res) => {
 
 const deleteFromCart = async (req, res) => {
   try{
-    const userId = req.session.userId;
+    const userId = req.user.id;
 
   if(!userId){
     return res.status(401).json({
@@ -151,7 +151,7 @@ const deleteFromCart = async (req, res) => {
 
 const clearCart = async (req, res) => {
   try{
-    const userId = req.session.userId;
+    const userId = req.user.id;
 
   if(!userId){
     return res.status(401).json({

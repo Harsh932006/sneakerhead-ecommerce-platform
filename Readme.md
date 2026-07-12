@@ -4,9 +4,9 @@
 
 SneakerHead is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) e-commerce platform built as a personal project to learn and implement modern web development concepts.
 
-The project features role-based authentication with separate User and Admin accounts, session-based authentication, product management, and a React frontend connected to a RESTful Express API.
+The project features role-based authentication with separate User and Admin accounts, JWT-based authentication (access + refresh tokens), product management, a shopping cart, product reviews, and a React frontend connected to a RESTful Express API.
 
-This repository currently represents **Version 1 (V1)** of the project and focuses on building a solid foundation for a scalable e-commerce application.
+This repository currently represents **Version 2 (V2)** of the project, which migrates the original session-based authentication to JWT and adds a shopping cart and review system.
 
 ---
 
@@ -17,8 +17,12 @@ This repository currently represents **Version 1 (V1)** of the project and focus
 * User Registration
 * User Login
 * User Logout
-* Persistent Authentication using Sessions
+* Persistent Authentication using JWT Access & Refresh Tokens
 * View All Available Products
+* View Single Product Details
+* Add / Remove Products from Cart
+* Clear Cart
+* Add / Delete Own Product Reviews
 * Authentication State Management using React Context API
 
 ### Admin Features
@@ -26,21 +30,35 @@ This repository currently represents **Version 1 (V1)** of the project and focus
 * Admin Registration
 * Admin Login
 * Admin Logout
+* Persistent Authentication using JWT Access & Refresh Tokens
 * Create Products
 * View Own Products
 * Update Products
 * Delete Products
 * Product Ownership Verification
-* Admin Authentication using Sessions
+* Protected Admin Routes
 
 ### Product Management
 
-* Create Product
+* Create Product (with image upload via ImageKit)
 * Read Products
 * Update Product
-* Delete Product
+* Delete Product (with image removal from ImageKit)
 * Product Ownership Authorization
 * Product Listing for Customers
+
+### Cart Management
+
+* Add Product to Cart
+* View Cart
+* Remove Product from Cart
+* Clear Cart
+
+### Review System
+
+* Add Review on a Product
+* View Reviews
+* Delete Own Review
 
 ---
 
@@ -53,19 +71,23 @@ This repository currently represents **Version 1 (V1)** of the project and focus
 * Axios
 * Context API
 * Tailwind CSS
+* React Toastify
 
 ### Backend
 
 * Node.js
 * Express.js
-* Express Session
+* JSON Web Tokens (jsonwebtoken)
 * MongoDB
 * Mongoose
+* Joi
+* Multer
+* ImageKit
 
 ### Authentication
 
-* Session-Based Authentication
-* Express Sessions
+* JWT-Based Authentication (Access Token + Refresh Token)
+* HttpOnly Refresh Token Cookies
 * Role-Based Authorization
 
 ---
@@ -73,16 +95,17 @@ This repository currently represents **Version 1 (V1)** of the project and focus
 ## Project Structure
 
 ```bash
-client/
+frontend/
 │
 ├── src/
 │   ├── admin/
 │   │   ├── Pages/
-│   │   
 │   │
 │   ├── landing_page/
 │   │   ├── Pages/
 │   │   └── components/
+│   │
+│   ├── api/
 │   │
 │   ├── context/
 │   │   └── AuthContext.jsx
@@ -93,13 +116,15 @@ client/
 └── package.json
 
 
-server/
+backend/
 │
-├── controllers/
-├── models/
-├── routes/
-├── middlewares/
-├── config/
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── services/
+│   ├── config/
 │
 ├── app.js
 └── package.json
@@ -139,7 +164,41 @@ server/
     desc,
     price,
     image,
+    imageFileId,
     adminId
+}
+```
+
+### Cart Model
+
+```javascript
+{
+    userId,
+    items: [
+        { productId }
+    ]
+}
+```
+
+### Review Model
+
+```javascript
+{
+    review,
+    product,
+    user
+}
+```
+
+### Session Model (Refresh Token Tracking)
+
+```javascript
+{
+    user,
+    refreshTokenHash,
+    ip,
+    userAgent,
+    revoked
 }
 ```
 
@@ -149,16 +208,17 @@ server/
 
 ### User Authentication
 
-1. User registers.
+1. User registers or logs in.
 2. Password is hashed.
-3. User session is created.
-4. Session ID is stored in cookies.
-5. User remains authenticated until logout.
+3. A short-lived access token and a longer-lived refresh token are issued.
+4. The refresh token is stored in an httpOnly cookie; its hash is saved server-side.
+5. The access token is used to authenticate API requests.
+6. User remains authenticated until logout or refresh token expiry.
 
 ### Admin Authentication
 
-1. Admin registers or logs in.
-2. Session stores adminId.
+1. Admin registers or logs in using the same access/refresh token flow as users, kept separate from user tokens/cookies.
+2. Session stores adminId (via the access token payload).
 3. Admin gains access to product management features.
 4. Authorization checks ensure only product owners can modify their products.
 
@@ -171,6 +231,7 @@ server/
 ```http
 POST /api/auth/user-register
 POST /api/auth/user-login
+GET  /api/auth/user-refresh-token
 GET  /api/auth/user-logout
 GET  /api/auth/curr-user
 ```
@@ -180,6 +241,7 @@ GET  /api/auth/curr-user
 ```http
 POST /api/auth/admin-register
 POST /api/auth/admin-login
+GET  /api/auth/admin-refresh-token
 GET  /api/auth/admin-logout
 GET  /api/auth/curr-admin
 ```
@@ -195,6 +257,23 @@ DELETE /api/products/:id
 GET    /api/products/admin-products
 ```
 
+### Cart Routes
+
+```http
+POST   /api/cart/add
+GET    /api/cart
+DELETE /api/cart
+DELETE /api/cart/clear
+```
+
+### Review Routes
+
+```http
+POST   /api/products/:id/review
+GET    /api/products/reviews
+DELETE /api/products/:id/review/:reviewId
+```
+
 ---
 
 ## Authorization Rules
@@ -207,6 +286,8 @@ Can:
 * Login
 * Logout
 * View Products
+* Add / Remove Products in Cart
+* Add / Delete Own Reviews
 
 Cannot:
 
@@ -254,11 +335,12 @@ Cannot:
 * REST APIs
 * MVC Architecture
 * MongoDB Relationships
-* Session Management
-* Authentication
+* JWT Authentication
+* Authentication Middleware
 * Authorization
 * Password Hashing
 * CRUD Operations
+* File Upload Handling
 * Error Handling
 
 ---
@@ -271,47 +353,46 @@ This project was built to gain practical experience with:
 * React Frontend Development
 * Express Backend Development
 * MongoDB Database Design
-* Session-Based Authentication
+* JWT-Based Authentication
 * Role-Based Authorization
 * RESTful API Design
 * Context API State Management
 
 ---
 
-# Version 1 Status
+# Version 2 Status
 
 ### Completed Features
 
-* User Authentication
-* Admin Authentication
+* User Authentication (JWT)
+* Admin Authentication (JWT)
 * Product CRUD Operations
 * Product Ownership Validation
-* Session-Based Authentication
+* Product Image Upload (ImageKit)
+* Shopping Cart
+* Product Reviews
+* Protected Admin Routes
+* Protected User Routes
+* Authentication Middleware
 * React Frontend Integration
 * Context API Authentication State
 
 ---
 
-# Future Improvements (Version 2)
+# Future Improvements (Version 3)
 
 The following features are planned for future releases:
 
 ## Security
 
-* Protected Admin Routes
-* Protected User Routes
-* Authentication Middleware Refactoring
 * Better Password Encryption using bcrypt
 
 ## E-Commerce Features
 
-* Shopping Cart
 * Wishlist
 * Product Search
 * Product Filtering
 * Product Categories
-* Product Details Page
-* Product Reviews
 * Product Ratings
 
 ## Admin Features
@@ -323,15 +404,12 @@ The following features are planned for future releases:
 
 ## Media Handling
 
-* Cloudinary Image Uploads
 * Multiple Product Images
 * Image Optimization
 
 ## User Experience
 
 * Responsive Design
-* Loading States
-* Toast Notifications
 * Error Boundaries
 * Skeleton Loaders
 

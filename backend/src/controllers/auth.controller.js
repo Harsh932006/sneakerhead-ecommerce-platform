@@ -1,10 +1,10 @@
-const router = require("../models/user.model");
 const crypto = require("crypto");
 const { userModel, validateUser } = require("../models/user.model");
 const { AdminModel, validateAdmin } = require("../models/admin.model");
-const session = require("express-session");
 const jwt = require("jsonwebtoken");
 const sessionModel = require("../models/session.model");
+
+const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
 //user auth
 const userRegister = async (req, res) => {
@@ -70,11 +70,11 @@ const userRegister = async (req, res) => {
     },
   );
 
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie("userRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
   res.status(200).json({
@@ -142,24 +142,25 @@ const userLogin = async (req, res) => {
     },
   );
 
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie("userRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
   return res.status(200).json({
     message: "User logged in successfully",
     user: {
-      email,
+      username: user.username,
+      email: user.email,
     },
     accessToken,
   });
 };
 
 const userRefreshToken = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies.userRefreshToken;
 
   if (!refreshToken) {
     return res.status(401).json({
@@ -167,7 +168,16 @@ const userRefreshToken = async (req, res) => {
     });
   }
 
-  const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+  let decoded;
+
+  try {
+    decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+  } catch (err) {
+    res.clearCookie("userRefreshToken");
+    return res.status(401).json({
+      message: "Invalid or expired refresh token",
+    });
+  }
 
   const refreshTokenHash = crypto.createHash("sha256").update(refreshToken).digest("hex");
 
@@ -206,11 +216,11 @@ const userRefreshToken = async (req, res) => {
   session.refreshTokenHash = newRefreshTokenHash;
   await session.save();
 
-  res.cookie("refreshToken", newRefreshToken, {
+  res.cookie("userRefreshToken", newRefreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 1 * 24 * 60 * 60 * 1000
+    maxAge: REFRESH_TOKEN_MAX_AGE,
   })
 
   res.status(201).json({
@@ -220,7 +230,7 @@ const userRefreshToken = async (req, res) => {
 };
 
 const userLogout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies.userRefreshToken;
 
   if (!refreshToken) {
     return res.status(401).json({
@@ -229,7 +239,7 @@ const userLogout = async (req, res) => {
   }
 
   const refreshTokenHash = crypto.createHash("sha256").update(refreshToken).digest("hex");
-  
+
   const session = await sessionModel.findOne({
     refreshTokenHash,
     revoked: false,
@@ -244,37 +254,11 @@ const userLogout = async (req, res) => {
   session.revoked = true;
   await session.save();
 
-  res.clearCookie("refreshToken");
+  res.clearCookie("userRefreshToken");
 
   res.status(200).json({
     message: "Logged out successfully"
   })
-
-  // const user = await userModel.findById(decoded.id);
-
-  // if (!user) {
-  //   return res.status(404).json({
-  //     message: "User not found",
-  //   });
-  // }
-
-  // req.session.destroy((err) => {
-  //   if (err) {
-  //     return res.status(500).json({
-  //       message: "Could not logout please try again later",
-  //     });
-  //   }
-  // });
-
-  // res.clearCookie("connect.sid");
-
-  // res.status(200).json({
-  //   message: "User logged out successfully",
-  //   user: {
-  //     username: user.username,
-  //     email: user.email,
-  //   },
-  // });
 };
 
 const getCurrUser = async (req, res) => {
@@ -286,7 +270,15 @@ const getCurrUser = async (req, res) => {
     });
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  let decoded;
+
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res.status(401).json({
+      message: "Invalid or expired access token",
+    });
+  }
 
   const user = await userModel.findById(decoded.id);
 
@@ -368,11 +360,11 @@ const adminRegister = async (req, res) => {
     },
   );
 
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie("adminRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
   res.status(200).json({
@@ -439,11 +431,11 @@ const adminLogin = async (req, res) => {
     },
   );
 
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie("adminRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
   res.status(200).json({
@@ -459,7 +451,7 @@ const adminLogin = async (req, res) => {
 };
 
 const adminRefreshToken = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies.adminRefreshToken;
 
   if (!refreshToken) {
     return res.status(401).json({
@@ -467,7 +459,16 @@ const adminRefreshToken = async (req, res) => {
     });
   }
 
-  const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+  let decoded;
+
+  try {
+    decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+  } catch (err) {
+    res.clearCookie("adminRefreshToken");
+    return res.status(401).json({
+      message: "Invalid or expired refresh token",
+    });
+  }
 
   const refreshTokenHash = crypto.createHash("sha256").update(refreshToken).digest("hex");
 
@@ -506,11 +507,11 @@ const adminRefreshToken = async (req, res) => {
   session.refreshTokenHash = newRefreshTokenHash;
   await session.save();
 
-  res.cookie("refreshToken", newRefreshToken, {
+  res.cookie("adminRefreshToken", newRefreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 1 * 24 * 60 * 60 * 1000
+    maxAge: REFRESH_TOKEN_MAX_AGE,
   })
 
   res.status(201).json({
@@ -520,7 +521,7 @@ const adminRefreshToken = async (req, res) => {
 };
 
 const adminLogout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies.adminRefreshToken;
 
   if(!refreshToken){
     return res.status(400).json({
@@ -544,39 +545,11 @@ const adminLogout = async (req, res) => {
   session.revoked = true;
   await session.save();
 
-  res.clearCookie("refreshToken");
+  res.clearCookie("adminRefreshToken");
 
   res.status(200).json({
     message: "Logged out successfully"
   })
-
-  // const user = await AdminModel.findById(adminId);
-
-  // if (!user) {
-  //   return res.status(404).json({
-  //     message: "User not found",
-  //   });
-  // }
-
-  // req.session.destroy((err) => {
-  //   if (err) {
-  //     return res.status(500).json({
-  //       message: "Could not logout please try again later",
-  //     });
-  //   }
-  // });
-
-  // res.clearCookie("connect.sid");
-
-  // res.status(200).json({
-  //   message: "User logged out successfully",
-  //   user: {
-  //     username: user.username,
-  //     email: user.email,
-  //     orgName: user.orgName,
-  //     address: user.address,
-  //   },
-  // });
 };
 
 const getCurrAdmin = async (req, res) => {
@@ -588,7 +561,16 @@ const getCurrAdmin = async (req, res) => {
     });
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  let decoded;
+
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res.status(401).json({
+      message: "Invalid or expired access token",
+    });
+  }
+
   const admin = await AdminModel.findById(decoded.id);
 
   if (!admin) {

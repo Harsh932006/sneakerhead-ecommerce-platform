@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { adminApi } from "../../api/adminApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ShowMyProdcuts = () => {
+const ShowMyProdcuts = ({ refreshTrigger }) => {
   const [products, setProducts] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [refreshTrigger]);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/products/admin-products",
-        {
-          withCredentials: true,
-        },
-      );
-
-
+      const response = await adminApi.get("/api/products/admin-products");
 
       setProducts(response.data.products);
     } catch (err) {
@@ -31,9 +24,7 @@ const ShowMyProdcuts = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/products/${productId}`, {
-        withCredentials: true,
-      });
+      await adminApi.delete(`/api/products/${productId}`);
 
       fetchProducts();
       toast.success("Product deleted successfully");
