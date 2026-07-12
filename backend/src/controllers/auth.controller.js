@@ -73,7 +73,7 @@ const userRegister = async (req, res) => {
   res.cookie("userRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
@@ -145,7 +145,7 @@ const userLogin = async (req, res) => {
   res.cookie("userRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
@@ -219,7 +219,7 @@ const userRefreshToken = async (req, res) => {
   res.cookie("userRefreshToken", newRefreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
   })
 
@@ -363,7 +363,7 @@ const adminRegister = async (req, res) => {
   res.cookie("adminRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
@@ -434,7 +434,7 @@ const adminLogin = async (req, res) => {
   res.cookie("adminRefreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
   });
 
@@ -510,7 +510,7 @@ const adminRefreshToken = async (req, res) => {
   res.cookie("adminRefreshToken", newRefreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
   })
 
