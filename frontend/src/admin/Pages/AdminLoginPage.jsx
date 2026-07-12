@@ -31,7 +31,7 @@ const AdminLoginPage = () => {
 
     try{
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/admin-login",
+        "http://localhost:3000/api/auth/admin-login",
         {
           email: formData.email,
           password: formData.password,

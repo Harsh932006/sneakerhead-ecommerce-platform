@@ -34,7 +34,7 @@ const EditMyProduct = () => {
   const fetchProduct = async () => {
     try{
         const response = await axios.get(
-            `https://sneakerhead-ecommerce-platform.onrender.com/api/products/${id}`,
+            `http://localhost:3000/api/products/${id}`,
             {
                 withCredentials: true,
             }
@@ -56,7 +56,7 @@ const EditMyProduct = () => {
 
     try{
         await axios.patch(
-            `https://sneakerhead-ecommerce-platform.vercel.app/api/products/${id}`,
+            `http://localhost:3000/api/products/${id}`,
             {
                 name: formData.name,
                 desc: formData.desc,

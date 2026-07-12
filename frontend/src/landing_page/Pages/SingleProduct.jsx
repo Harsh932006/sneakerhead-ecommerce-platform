@@ -18,7 +18,7 @@ const SingleProduct = () => {
         try{
 
             const response = await axios.get(
-                `https://sneakerhead-ecommerce-platform.onrender.com/api/products/${id}`,
+                `http://localhost:3000/api/products/${id}`,
                 {
                     withCredentials: true,
                 }
@@ -44,7 +44,7 @@ const SingleProduct = () => {
       }
 
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/cart/add",
+        "http://localhost:3000/api/cart/add",
         {
           productId: productId,
         },

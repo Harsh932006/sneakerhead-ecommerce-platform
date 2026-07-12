@@ -15,7 +15,7 @@ const ShowMyProdcuts = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/products/admin-products",
+        "http://localhost:3000/api/products/admin-products",
         {
           withCredentials: true,
         },
@@ -31,7 +31,7 @@ const ShowMyProdcuts = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete(`https://sneakerhead-ecommerce-platform.onrender.com/api/products/${productId}`, {
+      await axios.delete(`http://localhost:3000/api/products/${productId}`, {
         withCredentials: true,
       });
 

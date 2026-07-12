@@ -13,7 +13,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try{
       await axios.get(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/user-logout",
+        "http://localhost:3000/api/auth/user-logout",
         {
           withCredentials: true,
         }

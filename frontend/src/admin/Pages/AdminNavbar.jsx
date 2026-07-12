@@ -13,7 +13,7 @@ const AdminNavbar = () => {
     const handleLogout = async () => {
         try{
             const response = await axios.get(
-                "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/admin-logout",
+                "http://localhost:3000/api/auth/admin-logout",
                 {
                     withCredentials: true
                 }

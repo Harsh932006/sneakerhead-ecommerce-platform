@@ -15,7 +15,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get("https://sneakerhead-ecommerce-platform.onrender.com/api/cart", {
+      const response = await axios.get("http://localhost:3000/api/cart", {
         withCredentials: true,
       });
 
@@ -28,7 +28,7 @@ const Cart = () => {
 
   const removeFromCart = async (productId) => {
     try {
-      const response = await axios.delete("https://sneakerhead-ecommerce-platform.onrender.com/api/cart", {
+      const response = await axios.delete("http://localhost:3000/api/cart", {
         data: {
           productId: productId,
         },
@@ -46,7 +46,7 @@ const Cart = () => {
   const clearCart = async () => {
     try {
       const response = await axios.delete(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/cart/clear",
+        "http://localhost:3000/api/cart/clear",
         {
           withCredentials: true,
         },

@@ -15,7 +15,7 @@ const Review = ({ productId }) => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/products/reviews",
+        "http://localhost:3000/api/products/reviews",
         {
           withCredentials: true,
         },
@@ -40,7 +40,7 @@ const Review = ({ productId }) => {
       }
 
       const response = await axios.post(
-        `https://sneakerhead-ecommerce-platform.onrender.com/api/products/${productId}/review`,
+        `http://localhost:3000/api/products/${productId}/review`,
         {
           review: review,
         },
@@ -63,7 +63,7 @@ const Review = ({ productId }) => {
       }
 
       const response = await axios.delete(
-        `https://sneakerhead-ecommerce-platform.onrender.com/api/products/${product}/review/${review}`,
+        `http://localhost:3000/api/products/${product}/review/${review}`,
         {
           withCredentials: true,
         },

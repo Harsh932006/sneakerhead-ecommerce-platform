@@ -9,6 +9,7 @@ const LoginPage = () => {
 
   const [formData, setFormData] = useState({
     email: "",
+    password: "",
     formData: "",
   });
 
@@ -29,7 +30,7 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/user-login",
+        "http://localhost:3000/api/auth/user-login",
         {
           email: formData.email,
           password: formData.password,

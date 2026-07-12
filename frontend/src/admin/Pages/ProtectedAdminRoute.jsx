@@ -14,7 +14,7 @@ const ProtectedAdminRoute = ({children}) => {
         try{
 
             const response = await axios.get(
-                "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/curr-admin",
+                "http://localhost:3000/api/auth/curr-admin",
                 {
                     withCredentials: true
                 }

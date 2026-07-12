@@ -11,7 +11,7 @@ const ProtectedRoute = ({children}) => {
   const checkAuth = async () => {
     try {
       const response = await axios.get(
-        "https://sneakerhead-ecommerce-platform.onrender.com/api/auth/curr-user",
+        "http://localhost:3000/api/auth/curr-user",
         {
           withCredentials: true,
         },
